@@ -1,354 +1,114 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loja de Calçados</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
+<script>
+    // Informações dos produtos
+    const products = {
+        product1: {
+            code: "TÊN-001",
+            name: "Tênis Esportivo",
+            price: 199.90,
+            sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"]
+        },
+        product2: {
+            code: "SAP-002",
+            name: "Sapato Social",
+            price: 249.90,
+            sizes: ["37", "38", "39", "40", "41", "42", "43"]
+        },
+        product3: {
+            code: "SAN-003",
+            name: "Sandália Conforto",
+            price: 129.90,
+            sizes: ["34", "35", "36", "37", "38", "39"]
+        },
+        product4: {
+            code: "CHI-004",
+            name: "Chinelo Premium",
+            price: 79.90,
+            sizes: ["35-36", "37-38", "39-40", "41-42", "43-44"]
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-bottom: 30px;
-            border-radius: 5px;
-        }
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        .product {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        .product:hover {
-            transform: translateY(-5px);
-        }
-        .product img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-        .product h3 {
-            margin: 0 0 10px 0;
-            color: #4CAF50;
-            font-size: 1.3em;
-        }
-        .product p {
-            margin: 8px 0;
-            color: #555;
-        }
-        .price {
-            font-weight: bold;
-            color: #e91e63;
-            font-size: 1.3em;
-            margin: 10px 0;
-        }
-        .select-group {
-            margin: 15px 0;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        select, input {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        select {
-            width: 100%;
-        }
-        .quantity {
-            width: 60px;
-        }
-        .checkout-btn {
-            display: block;
-            width: 250px;
-            margin: 40px auto;
-            padding: 15px;
-            background-color: #25D366;
-            color: white;
-            text-align: center;
-            border: none;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-        .checkout-btn:hover {
-            background-color: #128C7E;
-        }
-        .cart-summary {
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .product-number {
-            background-color: #4CAF50;
-            color: white;
-            padding: 3px 10px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Loja de Calçados</h1>
-            <p>Escolha o modelo e tamanho, e envie seu pedido pelo WhatsApp</p>
-        </div>
-    </header>
+    };
 
-    <div class="container">
-        <div class="products">
-            <!-- Calçado 1 -->
-            <div class="product">
-                <div class="product-number">#TÊN-001</div>
-                <img src="https://via.placeholder.com/300x200?text=Tênis+Esportivo" alt="Tênis Esportivo">
-                <h3>Tênis Esportivo</h3>
-                <p>Tênis confortável para corrida e atividades físicas</p>
-                <p class="price">R$ 199,90</p>
-                
-                <div class="select-group">
-                    <label for="size1">Tamanho:</label>
-                    <select id="size1">
-                        <option value="">Selecione</option>
-                        <option value="36">36</option>
-                        <option value="37">37</option>
-                        <option value="38">38</option>
-                        <option value="39">39</option>
-                        <option value="40">40</option>
-                        <option value="41">41</option>
-                        <option value="42">42</option>
-                        <option value="43">43</option>
-                        <option value="44">44</option>
-                    </select>
-                </div>
-                
-                <div class="select-group">
-                    <label for="quantity1">Quantidade:</label>
-                    <input type="number" id="quantity1" class="quantity" min="0" value="0">
-                </div>
-            </div>
+    // Elementos do DOM
+    const orderSummary = document.getElementById('orderSummary');
+    const totalAmount = document.getElementById('totalAmount');
+    const whatsappBtn = document.getElementById('whatsappBtn');
 
-            <!-- Calçado 2 -->
-            <div class="product">
-                <div class="product-number">#SAP-002</div>
-                <img src="https://via.placeholder.com/300x200?text=Sapato+Social" alt="Sapato Social">
-                <h3>Sapato Social</h3>
-                <p>Sapato elegante para ocasiões formais</p>
-                <p class="price">R$ 249,90</p>
-                
-                <div class="select-group">
-                    <label for="size2">Tamanho:</label>
-                    <select id="size2">
-                        <option value="">Selecione</option>
-                        <option value="37">37</option>
-                        <option value="38">38</option>
-                        <option value="39">39</option>
-                        <option value="40">40</option>
-                        <option value="41">41</option>
-                        <option value="42">42</option>
-                        <option value="43">43</option>
-                    </select>
-                </div>
-                
-                <div class="select-group">
-                    <label for="quantity2">Quantidade:</label>
-                    <input type="number" id="quantity2" class="quantity" min="0" value="0">
-                </div>
-            </div>
-
-            <!-- Calçado 3 -->
-            <div class="product">
-                <div class="product-number">#SAN-003</div>
-                <img src="https://via.placeholder.com/300x200?text=Sandália" alt="Sandália">
-                <h3>Sandália Conforto</h3>
-                <p>Sandália leve para o dia a dia</p>
-                <p class="price">R$ 129,90</p>
-                
-                <div class="select-group">
-                    <label for="size3">Tamanho:</label>
-                    <select id="size3">
-                        <option value="">Selecione</option>
-                        <option value="34">34</option>
-                        <option value="35">35</option>
-                        <option value="36">36</option>
-                        <option value="37">37</option>
-                        <option value="38">38</option>
-                        <option value="39">39</option>
-                    </select>
-                </div>
-                
-                <div class="select-group">
-                    <label for="quantity3">Quantidade:</label>
-                    <input type="number" id="quantity3" class="quantity" min="0" value="0">
-                </div>
-            </div>
-
-            <!-- Calçado 4 -->
-            <div class="product">
-                <div class="product-number">#CHI-004</div>
-                <img src="https://via.placeholder.com/300x200?text=Chinelo" alt="Chinelo">
-                <h3>Chinelo Premium</h3>
-                <p>Chinelo macio para uso diário</p>
-                <p class="price">R$ 79,90</p>
-                
-                <div class="select-group">
-                    <label for="size4">Tamanho:</label>
-                    <select id="size4">
-                        <option value="">Selecione</option>
-                        <option value="35-36">35/36</option>
-                        <option value="37-38">37/38</option>
-                        <option value="39-40">39/40</option>
-                        <option value="41-42">41/42</option>
-                        <option value="43-44">43/44</option>
-                    </select>
-                </div>
-                
-                <div class="select-group">
-                    <label for="quantity4">Quantidade:</label>
-                    <input type="number" id="quantity4" class="quantity" min="0" value="0">
-                </div>
-            </div>
-        </div>
-
-        <div class="cart-summary">
-            <h2>Resumo do Pedido</h2>
-            <div id="orderSummary"></div>
-            <p id="totalAmount" style="font-size: 1.2em; font-weight: bold;">Total: R$ 0,00</p>
-        </div>
-
-        <a href="#" id="whatsappBtn" class="checkout-btn">Finalizar Pedido via WhatsApp</a>
-    </div>
-
-    <script>
-        // Informações dos produtos
-        const products = {
-            product1: {
-                code: "TÊN-001",
-                name: "Tênis Esportivo",
-                price: 199.90,
-                sizes: ["36", "37", "38", "39", "40", "41", "42", "43", "44"]
-            },
-            product2: {
-                code: "SAP-002",
-                name: "Sapato Social",
-                price: 249.90,
-                sizes: ["37", "38", "39", "40", "41", "42", "43"]
-            },
-            product3: {
-                code: "SAN-003",
-                name: "Sandália Conforto",
-                price: 129.90,
-                sizes: ["34", "35", "36", "37", "38", "39"]
-            },
-            product4: {
-                code: "CHI-004",
-                name: "Chinelo Premium",
-                price: 79.90,
-                sizes: ["35-36", "37-38", "39-40", "41-42", "43-44"]
-            }
-        };
-
-        // Elementos do DOM
-        const orderSummary = document.getElementById('orderSummary');
-        const totalAmount = document.getElementById('totalAmount');
-        const whatsappBtn = document.getElementById('whatsappBtn');
-
-        // Atualizar resumo do pedido
-        function updateOrderSummary() {
-            let summary = '';
-            let total = 0;
-            
-            for (let i = 1; i <= 4; i++) {
-                const quantity = parseInt(document.getElementById(`quantity${i}`).value);
-                const size = document.getElementById(`size${i}`).value;
-                
-                if (quantity > 0 && size) {
-                    const product = products[`product${i}`];
-                    const subtotal = quantity * product.price;
-                    
-                    summary += `
-                        <p>
-                            <strong>${product.code} - ${product.name}</strong><br>
-                            Tamanho: ${size} | Quantidade: ${quantity}<br>
-                            R$ ${product.price.toFixed(2)} x ${quantity} = R$ ${subtotal.toFixed(2)}
-                        </p>
-                        <hr>
-                    `;
-                    total += subtotal;
-                }
-            }
-            
-            orderSummary.innerHTML = summary || '<p>Nenhum produto selecionado</p>';
-            totalAmount.textContent = `Total: R$ ${total.toFixed(2)}`;
-            
-            // Atualizar link do WhatsApp
-            updateWhatsAppLink(total, summary);
-        }
-
-        // Atualizar link do WhatsApp com os itens do pedido
-        function updateWhatsAppLink(total, summary) {
-            let message = "Olá, gostaria de fazer um pedido:\n\n";
-            
-            for (let i = 1; i <= 4; i++) {
-                const quantity = parseInt(document.getElementById(`quantity${i}`).value);
-                const size = document.getElementById(`size${i}`).value;
-                
-                if (quantity > 0 && size) {
-                    const product = products[`product${i}`];
-                    message += `▶ ${product.code} - ${product.name}\n`;
-                    message += `   Tamanho: ${size} | Quantidade: ${quantity}\n`;
-                    message += `   Valor: R$ ${product.price.toFixed(2)}\n\n`;
-                }
-            }
-            
-            message += `💰 *Total: R$ ${total.toFixed(2)}*\n\n`;
-            message += "Por favor, confirme meu pedido!";
-            
-            const encodedMessage = encodeURIComponent(message);
-            whatsappBtn.href = `https://wa.me/message/OX2BKJR5BY5WE1?text=${encodedMessage}`;
-        }
-
-        // Adicionar event listeners
+    // Atualizar resumo do pedido
+    function updateOrderSummary() {
+        let summary = '';
+        let total = 0;
+        let hasItems = false;
+        
         for (let i = 1; i <= 4; i++) {
-            document.getElementById(`quantity${i}`).addEventListener('change', updateOrderSummary);
-            document.getElementById(`quantity${i}`).addEventListener('input', updateOrderSummary);
-            document.getElementById(`size${i}`).addEventListener('change', updateOrderSummary);
+            const quantityInput = document.getElementById(`quantity${i}`);
+            const sizeSelect = document.getElementById(`size${i}`);
+            
+            const quantity = parseInt(quantityInput.value);
+            const size = sizeSelect.value;
+            
+            if (quantity > 0 && size) {
+                hasItems = true;
+                const product = products[`product${i}`];
+                const subtotal = quantity * product.price;
+                
+                summary += `
+                    <div class="order-item">
+                        <h4>${product.code} - ${product.name}</h4>
+                        <p>Tamanho: ${size} | Quantidade: ${quantity}</p>
+                        <p>R$ ${product.price.toFixed(2)} x ${quantity} = <strong>R$ ${subtotal.toFixed(2)}</strong></p>
+                    </div>
+                    <hr>
+                `;
+                total += subtotal;
+            }
         }
+        
+        orderSummary.innerHTML = hasItems ? summary : '<p>Nenhum produto selecionado</p>';
+        totalAmount.textContent = `Total: R$ ${total.toFixed(2)}`;
+        
+        // Atualizar link do WhatsApp apenas se houver itens
+        if (hasItems) {
+            updateWhatsAppLink(total);
+        } else {
+            whatsappBtn.removeAttribute('href');
+        }
+    }
 
-        // Inicializar
-        updateOrderSummary();
-    </script>
-</body>
-</html>
+    // Atualizar link do WhatsApp
+    function updateWhatsAppLink(total) {
+        let message = "🛒 *PEDIDO DE CALÇADOS* 🛒\n\n";
+        message += "Cliente: [NOME DO CLIENTE]\n\n";
+        message += "--------------------------------\n";
+        message += "📋 *ITENS SELECIONADOS:*\n\n";
+        
+        for (let i = 1; i <= 4; i++) {
+            const quantity = parseInt(document.getElementById(`quantity${i}`).value);
+            const size = document.getElementById(`size${i}`).value;
+            
+            if (quantity > 0 && size) {
+                const product = products[`product${i}`];
+                message += `✔️ *${product.name}*\n`;
+                message += `   🔹 Código: ${product.code}\n`;
+                message += `   🔹 Tamanho: ${size}\n`;
+                message += `   🔹 Quantidade: ${quantity}\n`;
+                message += `   🔹 Valor: R$ ${(product.price * quantity).toFixed(2)}\n\n`;
+            }
+        }
+        
+        message += "--------------------------------\n";
+        message += `💰 *VALOR TOTAL: R$ ${total.toFixed(2)}*\n\n`;
+        message += "📝 *OBSERVAÇÕES:* [DEIXE SUAS OBSERVAÇÕES AQUI]\n\n";
+        message += "Por favor, confirme este pedido!";
+
+        const encodedMessage = encodeURIComponent(message);
+        whatsappBtn.href = `https://wa.me/message/OX2BKJR5BY5WE1?text=${encodedMessage}`;
+    }
+
+    // Adicionar event listeners
+    for (let i = 1; i <= 4; i++) {
+        document.getElementById(`quantity${i}`).addEventListener('input', updateOrderSummary);
+        document.getElementById(`size${i}`).addEventListener('change', updateOrderSummary);
+    }
+
+    // Inicializar
+    updateOrderSummary();
+</script>
